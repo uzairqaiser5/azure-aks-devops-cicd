@@ -1,5 +1,6 @@
 # Deploy to Azure Kubernetes Service
 # Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# Includes Automated Prometheus & Grafana Monitoring in default namespace
 
 trigger:
 - main
@@ -52,7 +53,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          # --- Step 1: Deploy App Credentials & Manifests ---
+          # --- Step 1: Deploy App Manifests ---
           - task: KubernetesManifest@0
             displayName: Create imagePullSecret
             inputs:
@@ -78,11 +79,10 @@ stages:
             inputs:
               helmVersionToInstall: 'latest'
 
-          # --- Step 3: Deploy Prometheus & Grafana via Helm using agent environment auth ---
+          # --- Step 3: Deploy Prometheus & Grafana into default Namespace ---
           - bash: |
-              # Locate the kubeconfig written by the environment task
+              # Set kubeconfig from agent temp storage
               CONFIG_FILE=$(find $(Agent.TempDirectory) -name "config" -o -name "kubeconfig" | head -n 1)
-
               if [ -n "$CONFIG_FILE" ]; then
                 export KUBECONFIG="$CONFIG_FILE"
               fi
@@ -90,9 +90,9 @@ stages:
               helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
               helm repo update
 
+              # Deploys in the default namespace where your service account has direct access
               helm upgrade --install monitoring-stack prometheus-community/kube-prometheus-stack \
-                --namespace monitoring \
-                --create-namespace \
+                --namespace default \
                 --set grafana.service.type=LoadBalancer \
                 --set grafana.adminPassword="Admin@123"
             displayName: 'Deploy Prometheus and Grafana via Helm'
