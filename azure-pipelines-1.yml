@@ -1,6 +1,5 @@
 # Deploy to Azure Kubernetes Service
 # Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
-# Includes Automated Prometheus & Grafana Monitoring Stack with Public LoadBalancer IP
 
 trigger:
 - main
@@ -9,15 +8,12 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '002fd4b1-6d8c-44c7-8b74-e655f4eb73fe'
   imageRepository: 'githubweb1'
   containerRegistry: 'registry7967.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'registry79672f31-auth'
-
-  # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
 stages:
@@ -82,15 +78,19 @@ stages:
             inputs:
               helmVersionToInstall: 'latest'
 
-          # --- Step 3: Deploy Prometheus & Grafana using Cluster Environment Context ---
-          - script: |
-              # Update or create the kubeconfig context from the environment
+          # --- Step 3: Deploy Prometheus & Grafana via Helm using agent environment auth ---
+          - bash: |
+              # Locate the kubeconfig written by the environment task
+              CONFIG_FILE=$(find $(Agent.TempDirectory) -name "config" -o -name "kubeconfig" | head -n 1)
+
+              if [ -n "$CONFIG_FILE" ]; then
+                export KUBECONFIG="$CONFIG_FILE"
+              fi
+
               helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
               helm repo update
 
-              # Deploy Helm chart using the KUBECONFIG provided by the task
               helm upgrade --install monitoring-stack prometheus-community/kube-prometheus-stack \
-                --kubeconfig $(KUBECONFIG) \
                 --namespace monitoring \
                 --create-namespace \
                 --set grafana.service.type=LoadBalancer \
