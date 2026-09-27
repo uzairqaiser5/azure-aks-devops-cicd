@@ -76,21 +76,21 @@ stages:
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
 
-          # --- Step 2: Install Helm Tool on Build Agent ---
+          # --- Step 2: Install Helm on the Agent ---
           - task: HelmInstaller@1
             displayName: 'Install Helm'
             inputs:
               helmVersionToInstall: 'latest'
 
-          # --- Step 3: Deploy/Upgrade Prometheus & Grafana Stack ---
+          # --- Step 3: Deploy Prometheus & Grafana using Cluster Environment Context ---
           - script: |
-              # Add official Prometheus community repository
+              # Update or create the kubeconfig context from the environment
               helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
               helm repo update
 
-              # Deploy or update the monitoring stack
-              # Configures Grafana as a LoadBalancer to provision an Azure Public IP
+              # Deploy Helm chart using the KUBECONFIG provided by the task
               helm upgrade --install monitoring-stack prometheus-community/kube-prometheus-stack \
+                --kubeconfig $(KUBECONFIG) \
                 --namespace monitoring \
                 --create-namespace \
                 --set grafana.service.type=LoadBalancer \
