@@ -246,9 +246,8 @@ kubectl get nodes -o wide
 
 ### 📸 Screenshot — AKS Nodes
 
-```text
-![AKS Nodes](screenshots/02-aks-nodes.png)
-```
+<img width="1704" height="948" alt="image" src="https://github.com/user-attachments/assets/83997155-e156-4673-9af2-68a53563723b" />
+
 
 ---
 
