@@ -244,9 +244,9 @@ Expected output will show the AKS worker nodes.
 kubectl get nodes -o wide
 ```
 
-### 📸 Screenshot — AKS Nodes
+### 📸 Screenshot — AKS Cluster
 
-<img width="1704" height="948" alt="image" src="https://github.com/user-attachments/assets/83997155-e156-4673-9af2-68a53563723b" />
+<img width="1835" height="488" alt="image" src="https://github.com/user-attachments/assets/30496a64-e711-42ff-b7e5-2ceb23685723" />
 
 
 ---
@@ -270,12 +270,6 @@ This was used to allow the service accounts in the `default` namespace to perfor
 `cluster-admin` provides very broad permissions and should **not** normally be used in a production environment.
 
 For production, a better approach would be to create a dedicated service account and assign only the Kubernetes permissions required by the CI/CD pipeline using **RBAC / Role / RoleBinding**.
-
-### 📸 Screenshot — Kubernetes Permission Configuration
-
-```text
-![Kubernetes RBAC Configuration](screenshots/03-kubernetes-permissions.png)
-```
 
 ---
 
@@ -328,12 +322,8 @@ registry7967.azurecr.io/githubweb1:<BUILD_ID>
 ```
 
 ### 📸 Screenshot — Azure Container Registry
+<img width="1694" height="817" alt="image" src="https://github.com/user-attachments/assets/c72fa55d-23ff-4d68-a257-eeb6e9cc4a83" />
 
-```text
-![Azure Container Registry](screenshots/04-acr-created.png)
-```
-
----
 
 # 5️⃣ Connect GitHub with Azure DevOps
 
@@ -364,11 +354,8 @@ This means a push to the `main` branch can automatically start the CI/CD process
 
 ### 📸 Screenshot — Azure DevOps Pipeline
 
-```text
-![Azure DevOps Pipeline](screenshots/06-azure-devops-pipeline.png)
-```
+<img width="1913" height="833" alt="image" src="https://github.com/user-attachments/assets/84e8b2dd-8df5-4795-b6f4-4f00799cb178" />
 
----
 
 # 6️⃣ Azure DevOps Service Connection
 
@@ -716,11 +703,8 @@ The build ID changes with each successful pipeline run.
 
 ### 📸 Screenshot — ACR Image
 
-```text
-![ACR Image](screenshots/08-acr-image.png)
-```
+<img width="1778" height="891" alt="image" src="https://github.com/user-attachments/assets/11c134b1-6e9f-4548-a8af-7ea8bd9d1b71" />
 
----
 
 # 1️⃣1️⃣ Deploy Application to AKS
 
@@ -776,9 +760,7 @@ kubectl rollout status deployment/<DEPLOYMENT_NAME>
 
 ### 📸 Screenshot — Running Application Pods
 
-```text
-![AKS Application Pods](screenshots/09-aks-application.png)
-```
+<img width="1869" height="937" alt="image" src="https://github.com/user-attachments/assets/1eb3ee95-1501-4065-9d77-57122b978759" />
 
 ---
 
@@ -854,17 +836,16 @@ You can also inspect all services:
 kubectl get svc -n default
 ```
 
-### 📸 Screenshot — Prometheus
+### 📸Application Running 
 
-```text
-![Prometheus Monitoring](screenshots/10-prometheus.png)
-```
+<img width="1834" height="878" alt="image" src="https://github.com/user-attachments/assets/8c778a37-d3f9-48dd-8ec3-1e7bd328b9f8" />
+
+
 
 ### 📸 Screenshot — Grafana Dashboard
 
-```text
-![Grafana Dashboard](screenshots/11-grafana.png)
-```
+<img width="1913" height="954" alt="image" src="https://github.com/user-attachments/assets/8546bc97-d49f-4ab9-82c4-4283ce476a61" />
+
 
 ---
 
@@ -993,31 +974,7 @@ kubectl get pods -l "app.kubernetes.io/instance=monitoring-stack"
 
 ---
 
-# 📸 Project Screenshots
 
-Store screenshots in:
-
-```text
-screenshots/
-```
-
-Recommended screenshots:
-
-| # | Screenshot | File |
-|---|---|---|
-| 01 | AKS Cluster Created | `01-aks-cluster-created.png` |
-| 02 | AKS Nodes | `02-aks-nodes.png` |
-| 03 | Kubernetes Permissions | `03-kubernetes-permissions.png` |
-| 04 | Azure Container Registry | `04-acr-created.png` |
-| 05 | GitHub Repository | `05-github-repository.png` |
-| 06 | Azure DevOps Pipeline | `06-azure-devops-pipeline.png` |
-| 07 | Successful Pipeline Build | `07-pipeline-build.png` |
-| 08 | ACR Image | `08-acr-image.png` |
-| 09 | Application Running on AKS | `09-aks-application.png` |
-| 10 | Prometheus | `10-prometheus.png` |
-| 11 | Grafana Dashboard | `11-grafana.png` |
-
----
 
 # 🧠 What I Learned
 
@@ -1151,4 +1108,10 @@ The main learning objective was to understand how modern DevOps tools can work t
 ---
 
 ⭐ If you found this project useful, feel free to explore the repository and the implementation files.
+
+#  Uzair - Senior Cloud & Devops Engineer
+#  Email - uzairqaiser5@gmail.com
+# Linkedin- @uzairqaiser5
+
+
 
